@@ -1,0 +1,2 @@
+employee_id,first_name,last_name,category,dob,email,mobile,marital_status,address,department,designation,work_location,doj,active,pf_account_number,uan,pf_applicable,medical_condition,medical_description
+Pola,5644,SaiRam,Permanent,2007-10-21,geethapola7@gmail.com,9014607784,Single,"bobbili,vizianagaram",Engineering,Senior Developer,Andhra Pradesh,2026-10-09,true,PF-AP-2345,998185305160,true,false,

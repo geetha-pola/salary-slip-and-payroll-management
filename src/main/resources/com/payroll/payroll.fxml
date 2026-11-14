@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fx:id="scrollPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.payroll.controller.PayrollController"
+            fitToWidth="true">
+    <VBox fx:id="viewContainer" spacing="18">
+        <padding>
+            <Insets top="10" right="15" bottom="25" left="15"/>
+        </padding>
+
+        <!-- View Header -->
+        <VBox spacing="2">
+            <Label fx:id="pageTitleLabel" text="Monthly Payroll Processing"/>
+            <Label fx:id="pageSubtitleLabel" text="Process designation-based monthly compensation, pro-rated attendance, statutory PF and PT deductions, and create immutable payroll records."/>
+        </VBox>
+
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <!-- TAB 1: Permanent Employee Payroll -->
+            <Tab text="Permanent Employee Payroll">
+                <VBox spacing="16">
+                    <padding>
+                        <Insets top="16" right="10" bottom="16" left="10"/>
+                    </padding>
+
+                    <HBox spacing="20">
+                        <!-- Left Column: Input Form -->
+                        <VBox fx:id="permFormCard" spacing="16" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+
+                            <Label fx:id="permSec1Header" text="1. Select Permanent Employee"/>
+                            <GridPane hgap="14" vgap="12">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="50"/>
+                                    <ColumnConstraints percentWidth="50"/>
+                                </columnConstraints>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label fx:id="lblPermSelectEmp" text="Active Permanent Employee *"/>
+                                    <ComboBox fx:id="permEmployeeCombo" maxWidth="Infinity"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label fx:id="lblPermPayPeriod" text="Pay Period (yyyy-MM) *"/>
+                                    <TextField fx:id="permPayPeriodField" promptText="e.g. 2026-11"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <Label fx:id="lblPermPayDate" text="Payment Disbursement Date *"/>
+                                    <DatePicker fx:id="permPayDatePicker" maxWidth="Infinity"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label fx:id="lblPermLocation" text="Work Location &amp; PT State"/>
+                                    <TextField fx:id="permLocationField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                    <Label fx:id="lblPermDept" text="Department &amp; Joining Date"/>
+                                    <HBox spacing="8">
+                                        <TextField fx:id="permDeptField" editable="false" promptText="Department" HBox.hgrow="ALWAYS"/>
+                                        <TextField fx:id="permDojField" editable="false" promptText="DOJ" prefWidth="110"/>
+                                    </HBox>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label fx:id="lblPermPfUan" text="PF Account Number &amp; UAN"/>
+                                    <TextField fx:id="permPfUanField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                                    <Label fx:id="lblPermPtConfig" text="Professional Tax Configuration"/>
+                                    <TextField fx:id="permPtConfigField" editable="false"/>
+                                </VBox>
+                            </GridPane>
+
+                            <Separator/>
+
+                            <!-- Section 2: Attendance Details -->
+                            <Label fx:id="permSec2Header" text="2. Monthly Attendance &amp; Working Days"/>
+                            <GridPane hgap="14" vgap="12">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="33.3"/>
+                                    <ColumnConstraints percentWidth="33.3"/>
+                                    <ColumnConstraints percentWidth="33.3"/>
+                                </columnConstraints>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label fx:id="lblPermTotalDays" text="Total Working Days in Month *"/>
+                                    <TextField fx:id="permTotalDaysField" text="30"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label fx:id="lblPermPresentDays" text="Actual Present Days *"/>
+                                    <TextField fx:id="permPresentDaysField" text="30"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                    <Label fx:id="lblPermAbsentDays" text="Unpaid Leave / LOP Days"/>
+                                    <TextField fx:id="permAbsentDaysField" editable="false" text="0"/>
+                                </VBox>
+                            </GridPane>
+
+                            <Separator/>
+
+                            <!-- Section 3: Designation Policy Snapshot -->
+                            <Label fx:id="permSec3Header" text="3. Designation Policy (Fixed Compensation)"/>
+                            <GridPane hgap="14" vgap="10">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="50"/>
+                                    <ColumnConstraints percentWidth="50"/>
+                                </columnConstraints>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label fx:id="lblPermDesig" text="Designation"/>
+                                    <TextField fx:id="permDesigField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label fx:id="lblPermPolicyBasic" text="Fixed Monthly Basic Salary"/>
+                                    <TextField fx:id="permPolicyBasicField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <Label fx:id="lblPermPolicyHra" text="Fixed HRA"/>
+                                    <TextField fx:id="permPolicyHraField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label fx:id="lblPermPolicyDa" text="Fixed DA"/>
+                                    <TextField fx:id="permPolicyDaField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                    <Label fx:id="lblPermPolicyConveyance" text="Fixed Conveyance"/>
+                                    <TextField fx:id="permPolicyConveyanceField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label fx:id="lblPermPfStatus" text="PF Applicability"/>
+                                    <TextField fx:id="permPfStatusField" editable="false"/>
+                                </VBox>
+                            </GridPane>
+
+                            <!-- Actions -->
+                            <HBox spacing="14" alignment="CENTER_RIGHT">
+                                <Button fx:id="btnPermReset" text="Reset" onAction="#handlePermReset"/>
+                                <Button fx:id="btnPermProcess" text="💾 Process &amp; Save Payroll" onAction="#handlePermProcess"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Right Column: Live Breakdown Preview -->
+                        <VBox fx:id="permBreakdownCard" spacing="12" prefWidth="350">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+
+                            <Label fx:id="permBreakdownHeader" text="Live Payroll Calculation Preview"/>
+                            <Label fx:id="permBreakdownSubtitle" text="Computed using Attendance Factor = Present Days / Total Days" wrapText="true"/>
+
+                            <Separator/>
+
+                            <!-- Earnings Breakdown -->
+                            <Label fx:id="permEarnTitle" text="EARNINGS"/>
+                            <VBox spacing="6">
+                                <HBox>
+                                    <Label text="Payable Basic Salary:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permPayableBasicLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Payable HRA:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permPayableHraLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Payable DA:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permPayableDaLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Payable Conveyance:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permPayableConveyanceLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Other Earnings:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permOtherEarningsLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label fx:id="permGrossHeaderLabel" text="Gross Earnings:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permGrossEarningsLabel" text="₹ 0.00"/>
+                                </HBox>
+                            </VBox>
+
+                            <Separator/>
+
+                            <!-- Deductions Breakdown -->
+                            <Label fx:id="permDedTitle" text="DEDUCTIONS"/>
+                            <VBox spacing="6">
+                                <HBox>
+                                    <Label text="Employee PF Deduction:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permEmployeePfLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Professional Tax (PT):"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permPtLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Other Deductions:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permOtherDeductionsLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label fx:id="permTotalDedHeaderLabel" text="Total Deductions:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="permTotalDeductionsLabel" text="₹ 0.00"/>
+                                </HBox>
+                            </VBox>
+
+                            <Separator/>
+
+                            <!-- Net Salary Highlight -->
+                            <VBox fx:id="permNetSalaryBox" spacing="4">
+                                <padding>
+                                    <Insets top="10" right="14" bottom="10" left="14"/>
+                                </padding>
+                                <Label fx:id="permNetHeaderLabel" text="NET PAYABLE SALARY"/>
+                                <Label fx:id="permNetSalaryLabel" text="₹ 0.00"/>
+                            </VBox>
+
+                            <!-- Separate Employer Contribution (Company Expense) -->
+                            <VBox fx:id="permEmployerPfBox" spacing="2">
+                                <padding>
+                                    <Insets top="8" right="10" bottom="8" left="10"/>
+                                </padding>
+                                <Label fx:id="permEmployerPfHeader" text="Employer PF Contribution (Company Expense):"/>
+                                <Label fx:id="permEmployerPfLabel" text="₹ 0.00"/>
+                                <Label fx:id="permEmployerPfNote" text="Strict Rule: Never reduces employee net pay." wrapText="true"/>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 2: Bench Employee Payroll -->
+            <Tab text="Bench Employee Payroll">
+                <VBox spacing="16">
+                    <padding>
+                        <Insets top="16" right="10" bottom="16" left="10"/>
+                    </padding>
+
+                    <HBox spacing="20">
+                        <!-- Left Column: Bench Input Form -->
+                        <VBox fx:id="benchFormCard" spacing="16" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+
+                            <Label fx:id="benchSec1Header" text="1. Select Bench Employee"/>
+                            <GridPane hgap="14" vgap="12">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="50"/>
+                                    <ColumnConstraints percentWidth="50"/>
+                                </columnConstraints>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label fx:id="lblBenchSelectEmp" text="Active Bench Employee *"/>
+                                    <ComboBox fx:id="benchEmployeeCombo" maxWidth="Infinity"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label fx:id="lblBenchPayPeriod" text="Pay Period (yyyy-MM) *"/>
+                                    <TextField fx:id="benchPayPeriodField" promptText="e.g. 2026-11"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <Label fx:id="lblBenchPayDate" text="Payment Disbursement Date *"/>
+                                    <DatePicker fx:id="benchPayDatePicker" maxWidth="Infinity"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Label fx:id="lblBenchLocation" text="Work Location &amp; PT State"/>
+                                    <TextField fx:id="benchLocationField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                    <Label fx:id="lblBenchDept" text="Department &amp; Joining Date"/>
+                                    <HBox spacing="8">
+                                        <TextField fx:id="benchDeptField" editable="false" promptText="Department" HBox.hgrow="ALWAYS"/>
+                                        <TextField fx:id="benchDojField" editable="false" promptText="DOJ" prefWidth="110"/>
+                                    </HBox>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <Label fx:id="lblBenchPfUan" text="PF Account Number &amp; UAN"/>
+                                    <TextField fx:id="benchPfUanField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                                    <Label fx:id="lblBenchPtConfig" text="Professional Tax Configuration"/>
+                                    <TextField fx:id="benchPtConfigField" editable="false"/>
+                                </VBox>
+                            </GridPane>
+
+                            <Separator/>
+
+                            <!-- Section 2: Project Deployment & Eligible Days -->
+                            <Label fx:id="benchSec2Header" text="2. Project Deployment &amp; Working Days"/>
+                            <GridPane hgap="14" vgap="12">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="60"/>
+                                    <ColumnConstraints percentWidth="40"/>
+                                </columnConstraints>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label fx:id="lblBenchProject" text="Assigned Project Reference *"/>
+                                    <ComboBox fx:id="benchProjectCombo" maxWidth="Infinity"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label fx:id="lblBenchProjectDays" text="Eligible Project Days *"/>
+                                    <TextField fx:id="benchProjectDaysField" text="15" promptText="Days"/>
+                                </VBox>
+                            </GridPane>
+
+                            <Separator/>
+
+                            <!-- Section 3: Designation Daily Rate Policy -->
+                            <Label fx:id="benchSec3Header" text="3. Designation Daily Rate Policy"/>
+                            <GridPane hgap="14" vgap="10">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="50"/>
+                                    <ColumnConstraints percentWidth="50"/>
+                                </columnConstraints>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <Label fx:id="lblBenchDesig" text="Designation"/>
+                                    <TextField fx:id="benchDesigField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <Label fx:id="lblBenchDailyRate" text="Configured Daily Basic Rate"/>
+                                    <TextField fx:id="benchDailyRateField" editable="false"/>
+                                </VBox>
+
+                                <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                                    <Label fx:id="benchRuleNoticeLabel" text="Strict Rule: Bench employees receive daily-rate pay for eligible project-working days only. Allowances (HRA, DA, Conveyance) are strictly ₹ 0.00." wrapText="true"/>
+                                </VBox>
+                            </GridPane>
+
+                            <!-- Actions -->
+                            <HBox spacing="14" alignment="CENTER_RIGHT">
+                                <Button fx:id="btnBenchReset" text="Reset" onAction="#handleBenchReset"/>
+                                <Button fx:id="btnBenchProcess" text="💾 Process &amp; Save Payroll" onAction="#handleBenchProcess"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Right Column: Live Breakdown Preview -->
+                        <VBox fx:id="benchBreakdownCard" spacing="12" prefWidth="350">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+
+                            <Label fx:id="benchBreakdownHeader" text="Live Bench Payroll Preview"/>
+                            <Label fx:id="benchBreakdownSubtitle" text="Computed as Daily Rate × Eligible Project Days" wrapText="true"/>
+
+                            <Separator/>
+
+                            <!-- Earnings Breakdown -->
+                            <Label fx:id="benchEarnTitle" text="EARNINGS"/>
+                            <VBox spacing="6">
+                                <HBox>
+                                    <Label text="Payable Basic Salary:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchPayableBasicLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="HRA (Bench: N/A):"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchHraLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="DA (Bench: N/A):"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchDaLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Conveyance (Bench: N/A):"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchConveyanceLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label fx:id="benchGrossHeaderLabel" text="Gross Earnings:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchGrossEarningsLabel" text="₹ 0.00"/>
+                                </HBox>
+                            </VBox>
+
+                            <Separator/>
+
+                            <!-- Deductions Breakdown -->
+                            <Label fx:id="benchDedTitle" text="DEDUCTIONS"/>
+                            <VBox spacing="6">
+                                <HBox>
+                                    <Label text="Employee PF Deduction:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchEmployeePfLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Professional Tax (PT):"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchPtLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label text="Other Deductions:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchOtherDeductionsLabel" text="₹ 0.00"/>
+                                </HBox>
+                                <HBox>
+                                    <Label fx:id="benchTotalDedHeaderLabel" text="Total Deductions:"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="benchTotalDeductionsLabel" text="₹ 0.00"/>
+                                </HBox>
+                            </VBox>
+
+                            <Separator/>
+
+                            <!-- Net Salary Highlight -->
+                            <VBox fx:id="benchNetSalaryBox" spacing="4">
+                                <padding>
+                                    <Insets top="10" right="14" bottom="10" left="14"/>
+                                </padding>
+                                <Label fx:id="benchNetHeaderLabel" text="NET PAYABLE SALARY"/>
+                                <Label fx:id="benchNetSalaryLabel" text="₹ 0.00"/>
+                            </VBox>
+
+                            <!-- Separate Employer Contribution (Company Expense) -->
+                            <VBox fx:id="benchEmployerPfBox" spacing="2">
+                                <padding>
+                                    <Insets top="8" right="10" bottom="8" left="10"/>
+                                </padding>
+                                <Label fx:id="benchEmployerPfHeader" text="Employer PF Contribution (Company Expense):"/>
+                                <Label fx:id="benchEmployerPfLabel" text="₹ 0.00"/>
+                                <Label fx:id="benchEmployerPfNote" text="Strict Rule: Never reduces employee net pay." wrapText="true"/>
+                            </VBox>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 3: Batch Payroll Processing -->
+            <Tab text="Batch Payroll Run">
+                <VBox spacing="16">
+                    <padding>
+                        <Insets top="16" right="10" bottom="16" left="10"/>
+                    </padding>
+
+                    <VBox fx:id="batchCard" spacing="14">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
+
+                        <Label fx:id="batchTitleLabel" text="Monthly Bulk Payroll Processing"/>
+                        <Label fx:id="batchSubtitleLabel" text="Automatically process payroll for all active employees of a category for the selected month. Any employee who already has a generated record for the period will be skipped." wrapText="true"/>
+
+                        <HBox spacing="16" alignment="CENTER_LEFT">
+                            <VBox spacing="4">
+                                <Label fx:id="lblBatchCat" text="Employee Category:"/>
+                                <ComboBox fx:id="batchCategoryCombo" prefWidth="150"/>
+                            </VBox>
+
+                            <VBox spacing="4">
+                                <Label fx:id="lblBatchPeriod" text="Pay Period (yyyy-MM):"/>
+                                <TextField fx:id="batchPeriodField" prefWidth="130" promptText="e.g. 2026-11"/>
+                            </VBox>
+
+                            <VBox spacing="4">
+                                <Label fx:id="lblBatchDays" text="Standard Working / Project Days:"/>
+                                <TextField fx:id="batchDaysField" prefWidth="120" text="30"/>
+                            </VBox>
+
+                            <VBox spacing="4">
+                                <Label text=" "/>
+                                <Button fx:id="btnRunBatch" text="⚡ Execute Batch Run" onAction="#handleRunBatch"/>
+                            </VBox>
+                        </HBox>
+
+                        <Label fx:id="batchStatusLabel"/>
+
+                        <TableView fx:id="batchResultTable" prefHeight="240">
+                            <columns>
+                                <TableColumn fx:id="colBatchRecordId" text="Record ID" prefWidth="130"/>
+                                <TableColumn fx:id="colBatchEmpName" text="Employee Name" prefWidth="180"/>
+                                <TableColumn fx:id="colBatchCategory" text="Category" prefWidth="100"/>
+                                <TableColumn fx:id="colBatchGross" text="Gross Earnings" prefWidth="130"/>
+                                <TableColumn fx:id="colBatchDed" text="Total Deductions" prefWidth="130"/>
+                                <TableColumn fx:id="colBatchNet" text="Net Salary" prefWidth="130"/>
+                                <TableColumn fx:id="colBatchStatus" text="Status" prefWidth="100"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="Batch execution results will appear here."/>
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </VBox>
+</ScrollPane>
+

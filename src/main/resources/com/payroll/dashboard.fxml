@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fx:id="scrollPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.payroll.controller.DashboardController"
+            fitToWidth="true">
+    <VBox fx:id="viewContainer" spacing="20">
+        <padding>
+            <Insets top="10" right="15" bottom="25" left="15"/>
+        </padding>
+
+        <!-- View Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <VBox spacing="2" HBox.hgrow="ALWAYS">
+                <Label fx:id="pageTitleLabel" text="Executive Dashboard"/>
+                <Label fx:id="pageSubtitleLabel" text="Real-time employee counts, financial disbursements, and PF summaries"/>
+            </VBox>
+            <Button fx:id="btnRefresh" text="🔄 Refresh Data" onAction="#refreshDashboard"/>
+            <Button fx:id="btnSeedDemo" text="📥 Populate Demo Employees (Optional)" onAction="#handleSeedDemoData"/>
+        </HBox>
+        <Label fx:id="demoStatusLabel"/>
+
+        <!-- Top Statistics Cards Grid -->
+        <GridPane fx:id="statsGrid" hgap="16" vgap="16">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+            </columnConstraints>
+
+            <!-- Card 1: Active Employees -->
+            <VBox fx:id="cardActiveEmp" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label text="TOTAL ACTIVE EMPLOYEES"/>
+                <Label fx:id="totalActiveEmployeesLabel" text="0"/>
+                <Label text="Currently registered"/>
+            </VBox>
+
+            <!-- Card 2: Permanent Employees -->
+            <VBox fx:id="cardPermEmp" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label text="PERMANENT EMPLOYEES"/>
+                <Label fx:id="totalPermanentLabel" text="0"/>
+                <Label text="Designation-based monthly pay"/>
+            </VBox>
+
+            <!-- Card 3: Bench Employees -->
+            <VBox fx:id="cardBenchEmp" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Label text="BENCH EMPLOYEES"/>
+                <Label fx:id="totalBenchLabel" text="0"/>
+                <Label text="Project-day daily rate pay"/>
+            </VBox>
+
+            <!-- Card 4: Current Month Payroll -->
+            <VBox fx:id="cardMonthlyPay" GridPane.columnIndex="3" GridPane.rowIndex="0">
+                <Label text="MONTHLY DISBURSEMENTS"/>
+                <Label fx:id="currentMonthPayrollLabel" text="Not Available Yet"/>
+                <Label text="Net salary generated (Stage 5)"/>
+            </VBox>
+
+            <!-- Card 5: Employee PF Deductions -->
+            <VBox fx:id="cardEmpPf" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Label text="TOTAL EMPLOYEE PF DEDUCTIONS"/>
+                <Label fx:id="totalEmployeePfLabel" text="Not Available Yet"/>
+                <Label text="Deducted from employee pay (Stage 5)"/>
+            </VBox>
+
+            <!-- Card 6: Employer PF Contributions -->
+            <VBox fx:id="cardEmployerPf" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Label text="EMPLOYER PF CONTRIBUTIONS"/>
+                <Label fx:id="totalEmployerPfLabel" text="Not Available Yet"/>
+                <Label text="Separate company contribution (Stage 5)"/>
+            </VBox>
+
+            <!-- Card 7: Payroll Records Generated -->
+            <VBox fx:id="cardHistorical" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <Label text="HISTORICAL RECORDS"/>
+                <Label fx:id="totalPayrollRecordsLabel" text="Not Available Yet"/>
+                <Label text="Total payslips archived (Stage 5)"/>
+            </VBox>
+
+            <!-- Card 8: Location Coverage -->
+            <VBox fx:id="cardOperationalHubs" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                <Label text="OPERATIONAL HUBS"/>
+                <Label text="AP &amp; Telangana"/>
+                <Label text="Configurable Professional Tax"/>
+            </VBox>
+        </GridPane>
+
+        <!-- Lower Section: Recent Payroll Table & Department Breakdown -->
+        <HBox spacing="20">
+            <!-- Recent Activity Table -->
+            <VBox fx:id="recentTableCard" spacing="10" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets top="16" right="16" bottom="16" left="16"/>
+                </padding>
+                <Label fx:id="recentTableTitle" text="Recent Payroll Generations"/>
+                <TableView fx:id="recentPayrollTable" prefHeight="260">
+                    <columns>
+                        <TableColumn fx:id="colRecordId" text="Record ID" prefWidth="120"/>
+                        <TableColumn fx:id="colEmpName" text="Employee" prefWidth="170"/>
+                        <TableColumn fx:id="colDesignation" text="Designation / Type" prefWidth="170"/>
+                        <TableColumn fx:id="colPeriod" text="Pay Period" prefWidth="110"/>
+                        <TableColumn fx:id="colGross" text="Gross Earnings" prefWidth="130"/>
+                        <TableColumn fx:id="colNet" text="Net Payable" prefWidth="130"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No payroll records generated yet. Process payroll in Stage 5."/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+
+            <!-- Department Distribution Breakdown -->
+            <VBox fx:id="deptDistributionCard" spacing="12" prefWidth="320">
+                <padding>
+                    <Insets top="16" right="16" bottom="16" left="16"/>
+                </padding>
+                <Label fx:id="deptTitleLabel" text="Department Distribution"/>
+                <VBox fx:id="deptDistributionBox" spacing="10" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

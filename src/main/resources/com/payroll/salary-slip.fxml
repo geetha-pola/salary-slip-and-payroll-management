@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootContainer" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.payroll.controller.SalarySlipController"
+      spacing="14">
+    <padding>
+        <Insets top="10" right="15" bottom="20" left="15"/>
+    </padding>
+
+    <!-- Header Section -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox spacing="2" HBox.hgrow="ALWAYS">
+            <Label fx:id="pageTitleLabel" text="Salary Slip Generation"/>
+            <Label fx:id="pageSubtitleLabel" text="Search completed payroll records, inspect pro-rated earnings and statutory deductions, and export PDF payslips"/>
+        </VBox>
+    </HBox>
+
+    <!-- Filter & Search Toolbar -->
+    <HBox fx:id="toolbarCard" spacing="12" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="10" right="14" bottom="10" left="14"/>
+        </padding>
+
+        <Label fx:id="lblSearch" text="Search:"/>
+        <TextField fx:id="searchField" promptText="Search by ID or Name..." prefWidth="200"/>
+
+        <Label fx:id="lblPeriod" text="Pay Period:"/>
+        <ComboBox fx:id="filterPeriod" prefWidth="130"/>
+
+        <Label fx:id="lblCategory" text="Category:"/>
+        <ComboBox fx:id="filterCategory" prefWidth="120"/>
+
+        <Button fx:id="btnReset" text="🔄 Reset Filters" onAction="#handleResetFilters"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalCountLabel" text="Loading records..."/>
+    </HBox>
+
+    <!-- Main Content Area: Left Table, Right Preview -->
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <!-- Left: Records Table and Batch Actions -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <TableView fx:id="payrollTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colRecordId" text="Record ID" prefWidth="130"/>
+                    <TableColumn fx:id="colEmployeeId" text="Emp ID" prefWidth="80"/>
+                    <TableColumn fx:id="colEmployeeName" text="Employee Name" prefWidth="140"/>
+                    <TableColumn fx:id="colCategory" text="Category" prefWidth="85"/>
+                    <TableColumn fx:id="colPayPeriod" text="Period" prefWidth="80"/>
+                    <TableColumn fx:id="colGross" text="Gross Earnings" prefWidth="110"/>
+                    <TableColumn fx:id="colDeductions" text="Total Deductions" prefWidth="110"/>
+                    <TableColumn fx:id="colNet" text="Net Salary" prefWidth="110"/>
+                    <TableColumn fx:id="colGeneratedDate" text="Processed" prefWidth="95"/>
+                </columns>
+                <placeholder>
+                    <Label fx:id="tablePlaceholderLabel" text="No saved payroll records found. Process monthly payroll in the Payroll module first."/>
+                </placeholder>
+            </TableView>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="btnBatchGenerate" text="🖨️ Batch Generate Slips (Filtered)" onAction="#handleBatchGenerate"/>
+                <Button fx:id="btnOpenFolder" text="📁 Open Payslips Folder" onAction="#handleOpenFolder"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="batchStatusLabel" text=""/>
+            </HBox>
+        </VBox>
+
+        <!-- Right: Preview and PDF Generation Actions -->
+        <VBox fx:id="previewCard" prefWidth="380" minWidth="350" maxWidth="420" spacing="10">
+            <padding>
+                <Insets top="14" right="14" bottom="14" left="14"/>
+            </padding>
+
+            <Label fx:id="previewTitleLabel" text="Salary Slip Details"/>
+            <Separator/>
+
+            <!-- Empty Selection Placeholder -->
+            <VBox fx:id="noSelectionBox" alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets top="30" bottom="30"/>
+                </padding>
+                <Label fx:id="lblNoSelectionIcon" text="📄"/>
+                <Label fx:id="lblNoSelectionText" text="Select a payroll record from the table to preview salary slip details and generate a PDF." wrapText="true" textAlignment="CENTER"/>
+            </VBox>
+
+            <!-- Populated Selection Content inside ScrollPane -->
+            <ScrollPane fx:id="previewScrollPane" fitToWidth="true" VBox.vgrow="ALWAYS" visible="false" managed="false">
+                <VBox spacing="12">
+                    <padding>
+                        <Insets top="4" right="6" bottom="10" left="4"/>
+                    </padding>
+
+                    <!-- Employee Details Summary -->
+                    <VBox fx:id="empSummaryBox" spacing="4">
+                        <Label fx:id="lblSummaryName" text="Employee Name"/>
+                        <Label fx:id="lblSummaryIdAndType" text="ID | Category | Location"/>
+                        <Label fx:id="lblSummaryDesig" text="Designation: N/A"/>
+                        <Label fx:id="lblSummaryPeriodAndDate" text="Pay Period: N/A"/>
+                        <Label fx:id="lblSummaryAttendance" text="Attendance: N/A"/>
+                    </VBox>
+
+                    <Separator/>
+
+                    <!-- Financial Breakdown Grid -->
+                    <VBox spacing="6">
+                        <Label fx:id="lblBreakdownHeader" text="Earnings &amp; Deductions Breakdown"/>
+                        <GridPane fx:id="breakdownGrid" hgap="10" vgap="4">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                                <ColumnConstraints halignment="RIGHT"/>
+                            </columnConstraints>
+                        </GridPane>
+                    </VBox>
+
+                    <!-- Net Salary Card -->
+                    <VBox fx:id="netSalaryCard" spacing="4">
+                        <padding>
+                            <Insets top="10" right="12" bottom="10" left="12"/>
+                        </padding>
+                        <Label fx:id="lblNetTitle" text="NET PAYABLE SALARY"/>
+                        <Label fx:id="lblNetValue" text="₹ 0.00"/>
+                        <Label fx:id="lblNetInWords" text="Rupees Zero Only" wrapText="true"/>
+                    </VBox>
+
+                    <!-- Employer PF Notice -->
+                    <VBox fx:id="employerPfCard" spacing="2">
+                        <padding>
+                            <Insets top="8" right="10" bottom="8" left="10"/>
+                        </padding>
+                        <Label fx:id="lblEmployerPfTitle" text="Employer Statutory PF Contribution:"/>
+                        <Label fx:id="lblEmployerPfValue" text="₹ 0.00 (Company expense, not deducted from net)"/>
+                    </VBox>
+
+                    <!-- Privacy Confirmation -->
+                    <Label fx:id="lblPrivacyNotice" text="🔒 Confidential: Medical and diagnostic data are strictly excluded from generated salary slips." wrapText="true"/>
+
+                    <!-- Action Buttons -->
+                    <VBox spacing="8">
+                        <Button fx:id="btnGenerateOpen" text="📄 Generate &amp; Open PDF Salary Slip" maxWidth="Infinity" onAction="#handleGenerateAndOpen"/>
+                        <Button fx:id="btnSaveAs" text="💾 Save PDF As..." maxWidth="Infinity" onAction="#handleSaveAs"/>
+                        <Label fx:id="actionStatusLabel" text="" wrapText="true"/>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </HBox>
+</VBox>
+

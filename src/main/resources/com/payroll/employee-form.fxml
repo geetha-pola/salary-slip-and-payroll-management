@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fx:id="scrollPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.payroll.controller.EmployeeController"
+            fitToWidth="true">
+    <VBox fx:id="viewContainer" spacing="18">
+        <padding>
+            <Insets top="10" right="15" bottom="25" left="15"/>
+        </padding>
+
+        <!-- View Header -->
+        <VBox spacing="2">
+            <Label fx:id="pageTitleLabel" text="Employee Registration"/>
+            <Label fx:id="pageSubtitleLabel" text="Register new Permanent or Bench employees. Basic salary is strictly determined by designation policy."/>
+        </VBox>
+
+        <HBox spacing="20">
+            <!-- Left Column: Registration Form -->
+            <VBox fx:id="formCard" spacing="16" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+
+                <!-- Section 1: Personal Information -->
+                <Label fx:id="sec1Label" text="1. Personal Information"/>
+                <GridPane hgap="14" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label fx:id="lblFirstName" text="First Name *"/>
+                        <TextField fx:id="firstNameField" promptText="e.g. Rahul"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label fx:id="lblLastName" text="Last Name *"/>
+                        <TextField fx:id="lastNameField" promptText="e.g. Sharma"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label fx:id="lblFullName" text="Full Name (Auto-composed)"/>
+                        <TextField fx:id="fullNameField" editable="false"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label fx:id="lblEmpId" text="Employee ID (Unique) *"/>
+                        <TextField fx:id="employeeIdField" promptText="e.g. EMP1005"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label fx:id="lblDob" text="Date of Birth (Min 18 yrs) *"/>
+                        <DatePicker fx:id="dobPicker" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label fx:id="lblEmail" text="Email ID *"/>
+                        <TextField fx:id="emailField" promptText="e.g. name@company.com"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                        <Label fx:id="lblMobile" text="Mobile Number (10-digits) *"/>
+                        <TextField fx:id="mobileField" promptText="e.g. 9876543210"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label fx:id="lblMarital" text="Marital Status"/>
+                        <ComboBox fx:id="maritalStatusCombo" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2">
+                        <Label fx:id="lblAddress" text="Residential Address"/>
+                        <TextArea fx:id="addressArea" prefRowCount="2" promptText="Street address, City, Pincode"/>
+                    </VBox>
+                </GridPane>
+
+                <Separator/>
+
+                <!-- Section 2: Employment Information -->
+                <Label fx:id="sec2Label" text="2. Employment Information"/>
+                <GridPane hgap="14" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label fx:id="lblDept" text="Department *"/>
+                        <ComboBox fx:id="departmentCombo" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label fx:id="lblCat" text="Employee Category *"/>
+                        <ComboBox fx:id="categoryCombo" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label fx:id="lblDesig" text="Designation (Active Policies) *"/>
+                        <ComboBox fx:id="designationCombo" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label fx:id="lblLoc" text="Work Location *"/>
+                        <ComboBox fx:id="workLocationCombo" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <Label fx:id="lblDoj" text="Date of Joining *"/>
+                        <DatePicker fx:id="dojPicker" maxWidth="Infinity"/>
+                    </VBox>
+
+                    <VBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Label fx:id="lblStatus" text="Employment Status"/>
+                        <CheckBox fx:id="activeCheckBox" text="Active Employee"/>
+                    </VBox>
+                </GridPane>
+
+                <Separator/>
+
+                <!-- Section 3: Payroll Identification -->
+                <Label fx:id="sec3Label" text="3. Payroll Identification"/>
+                <GridPane hgap="14" vgap="12">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50"/>
+                        <ColumnConstraints percentWidth="50"/>
+                    </columnConstraints>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label fx:id="lblPfAcc" text="PF Account Number"/>
+                        <TextField fx:id="pfAccountField" promptText="e.g. PF-TS-1005"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label fx:id="lblUan" text="Universal Account Number (UAN)"/>
+                        <TextField fx:id="uanField" promptText="e.g. 100512345678"/>
+                    </VBox>
+
+                    <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2">
+                        <CheckBox fx:id="pfApplicableCheckBox" text="Enable Provident Fund (PF) for this employee"/>
+                        <Label fx:id="lblPfNote" text="Subject to administrator-configured policy rates."/>
+                    </VBox>
+                </GridPane>
+
+                <Separator/>
+
+                <!-- Section 4: Sensitive Medical Information -->
+                <Label fx:id="sec4Label" text="4. Additional Information (Confidential)"/>
+                <VBox spacing="8">
+                    <HBox spacing="18" alignment="CENTER_LEFT">
+                        <Label fx:id="lblMedical" text="Medical Condition:"/>
+                        <RadioButton fx:id="medicalNoRadio" text="No" selected="true">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="medicalToggleGroup"/>
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="medicalYesRadio" text="Yes" toggleGroup="$medicalToggleGroup"/>
+                    </HBox>
+
+                    <VBox fx:id="medicalDescBox" spacing="4">
+                        <Label fx:id="lblMedicalDesc" text="Medical Description (Restricted Admin Access - Never printed on payslips):"/>
+                        <TextArea fx:id="medicalDescArea" prefRowCount="2" promptText="Enter medical details..."/>
+                    </VBox>
+                </VBox>
+
+                <!-- Action Buttons -->
+                <HBox spacing="14" alignment="CENTER_RIGHT">
+                    <Button fx:id="btnClear" text="Clear Form" onAction="#handleClear"/>
+                    <Button fx:id="btnRegister" text="💾 Register Employee" onAction="#handleRegister"/>
+                </HBox>
+            </VBox>
+
+            <!-- Right Column: Salary Policy Preview Box -->
+            <VBox fx:id="previewCard" spacing="14" prefWidth="320">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Label fx:id="policyPreviewTitle" text="Designation Salary Policy Preview" wrapText="true"/>
+                <Label fx:id="previewNoticeLabel" text="Strict Rule: Basic salary is determined automatically by designation policy. Individual overrides are prohibited." wrapText="true"/>
+
+                <Separator/>
+
+                <VBox spacing="10">
+                    <Label fx:id="previewBasicLabel" text="Monthly Basic / Daily Rate: -"/>
+                    <Label fx:id="previewHraLabel" text="Fixed HRA: -"/>
+                    <Label fx:id="previewDaLabel" text="Fixed DA: -"/>
+                    <Label fx:id="previewConveyanceLabel" text="Fixed Conveyance: -"/>
+                </VBox>
+
+                <Separator/>
+
+                <VBox spacing="8">
+                    <Label fx:id="previewPfHeaderLabel" text="Provident Fund Status"/>
+                    <Label fx:id="previewPfRatesLabel" text="PF: -" wrapText="true"/>
+                </VBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <VBox fx:id="previewInfoBox" spacing="4">
+                    <padding>
+                        <Insets top="12" right="12" bottom="12" left="12"/>
+                    </padding>
+                    <Label fx:id="previewNoteTitle" text="📌 Hackathon Note"/>
+                    <Label fx:id="previewNoteText" text="Permanent employees receive monthly allowances. Bench employees receive daily rates for project days only with NO HRA, DA, or conveyance." wrapText="true"/>
+                </VBox>
+            </VBox>
+        </HBox>
+    </VBox>
+</ScrollPane>

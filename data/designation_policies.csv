@@ -1,0 +1,5 @@
+designation_name,category,monthly_basic,hra,da,conveyance,other_earnings,daily_rate,pf_applicable,employee_pf_rate,employer_pf_rate,pf_wage_base,other_deductions,active
+Junior Developer,Bench,0,0,0,0,0,800.00,true,0.12,0.12,BASIC_DA,0,true
+Manager,Permanent,65000.00,7500.00,4000.00,2000.00,0,0,true,0.12,0.12,BASIC_DA,0,true
+Senior Developer,Bench,0,0,0,0,0,1500.00,true,0.12,0.12,BASIC_DA,0,true
+Senior Developer,Permanent,40000.00,4000.00,2500.00,1200.00,0,0,true,0.12,0.12,BASIC_DA,0,true

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootContainer" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.payroll.controller.HistoryController"
+      spacing="14">
+    <padding>
+        <Insets top="10" right="15" bottom="20" left="15"/>
+    </padding>
+
+    <!-- Header Section -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox spacing="2" HBox.hgrow="ALWAYS">
+            <Label fx:id="pageTitleLabel" text="Payroll History &amp; Audit Archive"/>
+            <Label fx:id="pageSubtitleLabel" text="Inspect immutable historical payroll snapshots, review authorized corrections, and access generated salary slips"/>
+        </VBox>
+    </HBox>
+
+    <!-- Filter & Search Toolbar -->
+    <HBox fx:id="toolbarCard" spacing="12" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="10" right="14" bottom="10" left="14"/>
+        </padding>
+
+        <Label fx:id="lblSearch" text="Search:"/>
+        <TextField fx:id="searchField" promptText="Search by ID, Name or Record ID..." prefWidth="200"/>
+
+        <Label fx:id="lblPeriod" text="Period:"/>
+        <ComboBox fx:id="filterPeriod" prefWidth="125"/>
+
+        <Label fx:id="lblCategory" text="Category:"/>
+        <ComboBox fx:id="filterCategory" prefWidth="115"/>
+
+        <Label fx:id="lblStatus" text="Status:"/>
+        <ComboBox fx:id="filterStatus" prefWidth="120"/>
+
+        <Button fx:id="btnReset" text="🔄 Reset" onAction="#handleResetFilters"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalCountLabel" text="Loading records..."/>
+    </HBox>
+
+    <!-- Main Content Area: Left History Table, Right Snapshot Inspector -->
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <!-- Left: Records Table -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS">
+            <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colRecordId" text="Record ID" prefWidth="130"/>
+                    <TableColumn fx:id="colEmployeeId" text="Emp ID" prefWidth="75"/>
+                    <TableColumn fx:id="colEmployeeName" text="Employee Name" prefWidth="135"/>
+                    <TableColumn fx:id="colCategory" text="Category" prefWidth="80"/>
+                    <TableColumn fx:id="colPayPeriod" text="Period" prefWidth="75"/>
+                    <TableColumn fx:id="colGross" text="Gross Earnings" prefWidth="105"/>
+                    <TableColumn fx:id="colDeductions" text="Deductions" prefWidth="105"/>
+                    <TableColumn fx:id="colNet" text="Net Salary" prefWidth="105"/>
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="95"/>
+                    <TableColumn fx:id="colDate" text="Date" prefWidth="90"/>
+                </columns>
+                <placeholder>
+                    <Label fx:id="tablePlaceholderLabel" text="No payroll history records found matching the filter criteria."/>
+                </placeholder>
+            </TableView>
+        </VBox>
+
+        <!-- Right: Snapshot Inspector Card -->
+        <VBox fx:id="previewCard" prefWidth="390" minWidth="360" maxWidth="430" spacing="10">
+            <padding>
+                <Insets top="14" right="14" bottom="14" left="14"/>
+            </padding>
+
+            <Label fx:id="previewTitleLabel" text="Payroll Snapshot Details"/>
+            <Separator/>
+
+            <!-- Empty Selection Placeholder -->
+            <VBox fx:id="noSelectionBox" alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets top="30" bottom="30"/>
+                </padding>
+                <Label fx:id="lblNoSelectionIcon" text="📜"/>
+                <Label fx:id="lblNoSelectionText" text="Select a historical payroll record from the table to inspect its complete immutable snapshot." wrapText="true" textAlignment="CENTER"/>
+            </VBox>
+
+            <!-- Populated Selection Content inside ScrollPane -->
+            <ScrollPane fx:id="previewScrollPane" fitToWidth="true" VBox.vgrow="ALWAYS" visible="false" managed="false">
+                <VBox spacing="12">
+                    <padding>
+                        <Insets top="4" right="6" bottom="10" left="4"/>
+                    </padding>
+
+                    <!-- Employee Details Summary -->
+                    <VBox fx:id="empSummaryBox" spacing="4">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Label fx:id="lblSummaryName" text="Employee Name" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="lblStatusBadge" text="ORIGINAL"/>
+                        </HBox>
+                        <Label fx:id="lblSummaryIdAndType" text="ID | Category | Location"/>
+                        <Label fx:id="lblSummaryDesig" text="Designation: N/A"/>
+                        <Label fx:id="lblSummaryPeriodAndDate" text="Pay Period: N/A"/>
+                        <Label fx:id="lblSummaryAttendance" text="Attendance: N/A"/>
+                    </VBox>
+
+                    <!-- Audit Trail Card (Visible if Corrected or Superseded) -->
+                    <VBox fx:id="auditTrailBox" spacing="3" visible="false" managed="false">
+                        <padding>
+                            <Insets top="8" right="10" bottom="8" left="10"/>
+                        </padding>
+                        <Label fx:id="lblAuditHeader" text="Audit &amp; Correction Trail:"/>
+                        <Label fx:id="lblAuditOriginalId" text="Superseded Record: None"/>
+                        <Label fx:id="lblAuditReason" text="Reason: N/A" wrapText="true"/>
+                        <Label fx:id="lblAuditTimestamp" text="Timestamp: N/A"/>
+                    </VBox>
+
+                    <Separator/>
+
+                    <!-- Financial Breakdown Grid -->
+                    <VBox spacing="6">
+                        <Label fx:id="lblBreakdownHeader" text="Earnings &amp; Deductions Breakdown"/>
+                        <GridPane fx:id="breakdownGrid" hgap="10" vgap="4">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                                <ColumnConstraints halignment="RIGHT"/>
+                            </columnConstraints>
+                        </GridPane>
+                    </VBox>
+
+                    <!-- Net Salary Card -->
+                    <VBox fx:id="netSalaryCard" spacing="4">
+                        <padding>
+                            <Insets top="10" right="12" bottom="10" left="12"/>
+                        </padding>
+                        <Label fx:id="lblNetTitle" text="NET PAYABLE SALARY"/>
+                        <Label fx:id="lblNetValue" text="₹ 0.00"/>
+                        <Label fx:id="lblNetInWords" text="Rupees Zero Only" wrapText="true"/>
+                    </VBox>
+
+                    <!-- Employer PF Notice -->
+                    <VBox fx:id="employerPfCard" spacing="2">
+                        <padding>
+                            <Insets top="8" right="10" bottom="8" left="10"/>
+                        </padding>
+                        <Label fx:id="lblEmployerPfTitle" text="Employer Statutory PF Contribution:"/>
+                        <Label fx:id="lblEmployerPfValue" text="₹ 0.00 (Company expense, not deducted from net)"/>
+                    </VBox>
+
+                    <!-- Historical Policy Snapshot Box -->
+                    <VBox fx:id="policySnapshotBox" spacing="2">
+                        <padding>
+                            <Insets top="6" right="8" bottom="6" left="8"/>
+                        </padding>
+                        <Label fx:id="lblPolicySnapshotTitle" text="Preserved Calculation Policy Snapshot:"/>
+                        <Label fx:id="lblPolicySnapshotValue" text="N/A" wrapText="true"/>
+                    </VBox>
+
+                    <!-- Action Buttons -->
+                    <VBox spacing="8">
+                        <Button fx:id="btnOpenSalarySlip" text="📄 View / Open Salary Slip" maxWidth="Infinity" onAction="#handleOpenSalarySlip"/>
+                        <Button fx:id="btnCorrect" text="✏️ Authorized Payroll Correction" maxWidth="Infinity" onAction="#handleInitiateCorrection"/>
+                        <Label fx:id="actionStatusLabel" text="" wrapText="true"/>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </HBox>
+</VBox>
+

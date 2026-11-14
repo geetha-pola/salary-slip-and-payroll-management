@@ -1,0 +1,5 @@
+project_id,project_name,client_or_description,active
+PRJ-001,Internal ERP Modernization,Active client project,true
+PRJ-002,Cloud Migration Initiative,Active client project,true
+PRJ-003,Client Billing Engine,Active client project,true
+PRJ-004,Security & Identity Platform,Active client project,true

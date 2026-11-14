@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fx:id="scrollPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.payroll.controller.SettingsController"
+            fitToWidth="true">
+    <VBox fx:id="viewContainer" spacing="18">
+        <padding>
+            <Insets top="10" right="15" bottom="25" left="15"/>
+        </padding>
+
+        <!-- View Header -->
+        <VBox spacing="2">
+            <Label fx:id="pageTitleLabel" text="Designation &amp; Salary Policy Settings"/>
+            <Label fx:id="pageSubtitleLabel" text="Configure designation-based basic compensation, allowances, statutory PF policies, and professional tax slabs."/>
+        </VBox>
+
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+            <!-- TAB 1: Designation & Salary Policies -->
+            <Tab text="Designation Policies">
+                <VBox spacing="16">
+                    <padding>
+                        <Insets top="16" right="10" bottom="16" left="10"/>
+                    </padding>
+
+                    <!-- Table of existing policies -->
+                    <VBox fx:id="policyTableCard" spacing="8">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label fx:id="tableCardHeader" text="Configured Designation Policies"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button fx:id="btnNewPolicy" text="+ New Policy" onAction="#handleNewPolicy"/>
+                            <Button fx:id="btnDeactivatePolicy" text="🚫 Deactivate Selected" onAction="#handleDeactivatePolicy"/>
+                        </HBox>
+
+                        <TableView fx:id="designationTable" prefHeight="220">
+                            <columns>
+                                <TableColumn fx:id="colDesigName" text="Designation" prefWidth="150"/>
+                                <TableColumn fx:id="colCategory" text="Category" prefWidth="100"/>
+                                <TableColumn fx:id="colBasicRate" text="Basic / Daily Rate" prefWidth="140"/>
+                                <TableColumn fx:id="colHra" text="HRA" prefWidth="100"/>
+                                <TableColumn fx:id="colDa" text="DA" prefWidth="100"/>
+                                <TableColumn fx:id="colConveyance" text="Conveyance" prefWidth="110"/>
+                                <TableColumn fx:id="colPfApp" text="PF Status" prefWidth="130"/>
+                                <TableColumn fx:id="colPfRates" text="Configured PF Rates" prefWidth="170"/>
+                                <TableColumn fx:id="colStatus" text="Status" prefWidth="85"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Add / Edit Policy Form -->
+                    <VBox fx:id="policyFormCard" spacing="12">
+                        <padding>
+                            <Insets top="16" right="16" bottom="16" left="16"/>
+                        </padding>
+                        <Label fx:id="formCardHeader" text="Configure Designation Policy"/>
+                        <Label fx:id="formHintLabel" text="Permanent and Bench policies are distinct even when sharing the same designation name. Two permanent employees with the same designation receive the exact same configured basic salary." wrapText="true"/>
+
+                        <GridPane hgap="14" vgap="12">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="33.3"/>
+                                <ColumnConstraints percentWidth="33.3"/>
+                                <ColumnConstraints percentWidth="33.3"/>
+                            </columnConstraints>
+
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label fx:id="lblDesigName" text="Designation Name *"/>
+                                <TextField fx:id="desigNameField" promptText="e.g. Lead Architect"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label fx:id="lblCategory" text="Employee Category *"/>
+                                <ComboBox fx:id="categoryField" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                                <Label fx:id="lblDailyRate" text="Daily Basic Rate (Bench Only) *"/>
+                                <TextField fx:id="dailyRateField" promptText="e.g. 1500.00"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label fx:id="lblMonthlyBasic" text="Monthly Basic Salary (Permanent) *"/>
+                                <TextField fx:id="monthlyBasicField" promptText="e.g. 40000.00"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label fx:id="lblHra" text="Fixed Monthly HRA (Permanent)"/>
+                                <TextField fx:id="hraField" promptText="e.g. 4000.00"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                <Label fx:id="lblDa" text="Fixed Monthly DA (Permanent)"/>
+                                <TextField fx:id="daField" promptText="e.g. 2500.00"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <Label fx:id="lblConveyance" text="Fixed Monthly Conveyance (Permanent)"/>
+                                <TextField fx:id="conveyanceField" promptText="e.g. 1200.00"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <Label fx:id="lblOtherEarnings" text="Other Fixed Predefined Earnings"/>
+                                <TextField fx:id="otherEarningsField" promptText="0.00"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                <Label fx:id="lblOtherDeductions" text="Other Deductions"/>
+                                <TextField fx:id="otherDeductionsField" promptText="0.00"/>
+                            </VBox>
+
+                            <!-- PF Configuration Controls -->
+                            <VBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                <Label fx:id="lblPfApp" text="PF Eligibility for Designation"/>
+                                <CheckBox fx:id="pfApplicableCheck" text="PF Eligible Designation"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                <Label fx:id="lblEmpPfRate" text="Designation EE PF Rate (e.g. 0.12 or 12%)"/>
+                                <TextField fx:id="employeePfRateField" promptText="e.g. 0.12"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                <Label fx:id="lblEmployerPfRate" text="Designation ER PF Rate (e.g. 0.12 or 12%)"/>
+                                <TextField fx:id="employerPfRateField" promptText="e.g. 0.12"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                <Label fx:id="lblPfWageBase" text="PF Calculation Wage Base"/>
+                                <ComboBox fx:id="pfWageBaseCombo" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <VBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                <Label fx:id="lblPolicyStatus" text="Policy Status"/>
+                                <CheckBox fx:id="activePolicyCheck" text="Active Designation Policy" selected="true"/>
+                            </VBox>
+
+                            <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                <Button fx:id="btnSavePolicy" text="💾 Save Policy" onAction="#handleSaveDesignationPolicy"/>
+                            </HBox>
+                        </GridPane>
+                    </VBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 2: Global Provident Fund (PF) Policy Settings -->
+            <Tab text="Provident Fund (PF) Policy">
+                <VBox spacing="16">
+                    <padding>
+                        <Insets top="16" right="10" bottom="16" left="10"/>
+                    </padding>
+
+                    <VBox fx:id="pfSettingsCard" spacing="14" maxWidth="750">
+                        <padding>
+                            <Insets top="20" right="20" bottom="20" left="20"/>
+                        </padding>
+
+                        <Label fx:id="pfCardHeader" text="Global Statutory Provident Fund Configuration"/>
+                        <Label fx:id="pfCardHint" text="Global policy governs company-wide PF participation. If disabled, PF is NOT deducted even if individual designations are marked eligible. Requires explicit administrator activation." wrapText="true"/>
+
+                        <VBox fx:id="pfStatusNoticeBox" spacing="4">
+                            <padding>
+                                <Insets top="10" right="14" bottom="10" left="14"/>
+                            </padding>
+                            <Label fx:id="pfStatusTitleLabel" text="Current Global PF Status"/>
+                            <Label fx:id="pfStatusDescLabel" text="Global PF is currently DISABLED. Statutory rates require explicit administrator confirmation." wrapText="true"/>
+                        </VBox>
+
+                        <GridPane hgap="14" vgap="12">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+
+                            <VBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2">
+                                <Label fx:id="lblGlobalPfEnable" text="Global Company PF Activation"/>
+                                <CheckBox fx:id="globalPfApplicableCheck" text="Enable Global Provident Fund Deductions for Company"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label fx:id="lblGlobalEeRate" text="Employee Contribution Rate (e.g. 0.12 or 12%) *"/>
+                                <TextField fx:id="globalEeRateField" promptText="e.g. 0.12"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label fx:id="lblGlobalErRate" text="Employer Contribution Rate (e.g. 0.12 or 12%) *"/>
+                                <TextField fx:id="globalErRateField" promptText="e.g. 0.12"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                <Label fx:id="lblGlobalWageBase" text="PF Calculation Wage Base *"/>
+                                <ComboBox fx:id="globalPfWageBaseCombo" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <Label fx:id="lblGlobalWageCeiling" text="Statutory Wage Ceiling (Optional, e.g. 15000)"/>
+                                <TextField fx:id="globalWageCeilingField" promptText="Leave blank for no ceiling"/>
+                            </VBox>
+
+                            <VBox spacing="4" alignment="CENTER_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                                <CheckBox fx:id="globalEnforceCeilingCheck" text="Enforce Statutory Wage Ceiling"/>
+                            </VBox>
+                        </GridPane>
+
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button fx:id="btnSaveGlobalPf" text="💾 Save Global PF Policy" onAction="#handleSaveGlobalPfPolicy"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 3: Professional Tax Slabs -->
+            <Tab text="Professional Tax Slabs">
+                <VBox spacing="14">
+                    <padding>
+                        <Insets top="16" right="10" bottom="16" left="10"/>
+                    </padding>
+
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <Label fx:id="lblStateSelect" text="Select Work Location State:"/>
+                        <ComboBox fx:id="ptStateSelector" prefWidth="180"/>
+                        <Label fx:id="lblPtHint" text="📌 Initial demonstration slabs supplied for PS-10 project. Configurable by state."/>
+                    </HBox>
+
+                    <TableView fx:id="ptTable" prefHeight="220">
+                        <columns>
+                            <TableColumn fx:id="colPtMin" text="Min Monthly Wages" prefWidth="180"/>
+                            <TableColumn fx:id="colPtMax" text="Max Monthly Wages" prefWidth="180"/>
+                            <TableColumn fx:id="colPtTax" text="Professional Tax Amount" prefWidth="200"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- TAB 4: Company Details -->
+            <Tab text="Company Settings">
+                <VBox fx:id="companyCard" spacing="14" maxWidth="650">
+                    <padding>
+                        <Insets top="16" right="20" bottom="16" left="20"/>
+                    </padding>
+                    <Label fx:id="companyCardHeader" text="Corporate &amp; Payslip Information"/>
+
+                    <VBox spacing="4">
+                        <Label fx:id="lblCompName" text="Company Name *"/>
+                        <TextField fx:id="companyNameField"/>
+                    </VBox>
+
+                    <VBox spacing="4">
+                        <Label fx:id="lblCompAddr" text="Company Registered Address *"/>
+                        <TextArea fx:id="companyAddressArea" prefRowCount="2"/>
+                    </VBox>
+
+                    <VBox spacing="4">
+                        <Label fx:id="lblPayslipTitle" text="Salary Slip Title *"/>
+                        <TextField fx:id="payslipTitleField"/>
+                    </VBox>
+
+                    <HBox spacing="14">
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label fx:id="lblHrEmail" text="HR Contact Email"/>
+                            <TextField fx:id="contactEmailField"/>
+                        </VBox>
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label fx:id="lblPhone" text="Contact Phone Number"/>
+                            <TextField fx:id="contactPhoneField"/>
+                        </VBox>
+                    </HBox>
+
+                    <Button fx:id="btnSaveCompany" text="💾 Save Company Settings" onAction="#handleSaveCompanySettings"/>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </VBox>
+</ScrollPane>

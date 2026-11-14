@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.payroll.controller.LoginController"
+           onKeyPressed="#handleKeyPressed">
+    <VBox fx:id="cardBox" alignment="CENTER" spacing="18" maxWidth="430">
+        <padding>
+            <Insets top="35" right="35" bottom="35" left="35"/>
+        </padding>
+
+        <VBox alignment="CENTER" spacing="5">
+            <Label fx:id="titleLabel" text="PAYROLL MANAGEMENT SYSTEM"/>
+            <Label fx:id="subtitleLabel" text="Hackathon Problem Statement PS-10"/>
+        </VBox>
+
+        <VBox spacing="6" alignment="CENTER_LEFT">
+            <Label fx:id="empIdLabel" text="Employee ID"/>
+            <TextField fx:id="empIdField" promptText="Enter Employee ID (e.g., 1234)"/>
+        </VBox>
+
+        <VBox spacing="6" alignment="CENTER_LEFT">
+            <Label fx:id="passwordLabel" text="Password"/>
+            <StackPane alignment="CENTER_LEFT">
+                <PasswordField fx:id="passwordField" promptText="Enter Password"/>
+                <TextField fx:id="passwordVisibleField" promptText="Enter Password"/>
+            </StackPane>
+            <CheckBox fx:id="showPasswordCheckBox" text="Show Password"/>
+        </VBox>
+
+        <Label fx:id="messageLabel" visible="false" wrapText="true"/>
+
+        <Button fx:id="loginButton" text="Sign In" onAction="#handleLogin" maxWidth="Infinity"/>
+
+        <VBox fx:id="hintBox" alignment="CENTER" spacing="4">
+            <padding>
+                <Insets top="10" right="14" bottom="10" left="14"/>
+            </padding>
+            <Label fx:id="hintTitleLabel" text="Fixed Demo Credentials"/>
+            <Label fx:id="hintValueLabel" text="Employee ID: 1234  |  Password: 5678"/>
+        </VBox>
+    </VBox>
+</StackPane>

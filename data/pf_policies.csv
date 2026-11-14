@@ -1,0 +1,2 @@
+default_applicable,employee_rate,employer_rate,wage_base_type,wage_ceiling,enforce_ceiling
+false,,,BASIC_DA,,false

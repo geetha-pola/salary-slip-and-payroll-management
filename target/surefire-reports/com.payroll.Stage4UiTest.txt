@@ -1,0 +1,27 @@
+-------------------------------------------------------------------------------
+Test set: com.payroll.Stage4UiTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.227 s <<< FAILURE! -- in com.payroll.Stage4UiTest
+com.payroll.Stage4UiTest.testDashboardLoading -- Time elapsed: 0.044 s <<< ERROR!
+java.lang.RuntimeException: org.opentest4j.AssertionFailedError: Dashboard must show 'Not Available Yet' for unintegrated payroll metrics ==> expected: <Not Available Yet> but was: <₹ 44,320.00>
+	at com.payroll.Stage4UiTest.runOnFxThread(Stage4UiTest.java:66)
+	at com.payroll.Stage4UiTest.testDashboardLoading(Stage4UiTest.java:161)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: org.opentest4j.AssertionFailedError: Dashboard must show 'Not Available Yet' for unintegrated payroll metrics ==> expected: <Not Available Yet> but was: <₹ 44,320.00>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at com.payroll.Stage4UiTest.lambda$testDashboardLoading$5(Stage4UiTest.java:175)
+	at com.payroll.Stage4UiTest.lambda$runOnFxThread$1(Stage4UiTest.java:54)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:185)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+

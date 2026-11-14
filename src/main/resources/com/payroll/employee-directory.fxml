@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="rootContainer" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.payroll.controller.EmployeeDirectoryController"
+      spacing="16">
+    <padding>
+        <Insets top="10" right="15" bottom="25" left="15"/>
+    </padding>
+
+    <!-- Header Section -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
+        <VBox spacing="2" HBox.hgrow="ALWAYS">
+            <Label fx:id="pageTitleLabel" text="Employee Directory"/>
+            <Label fx:id="pageSubtitleLabel" text="Search, filter, view details, and manage active status of employees"/>
+        </VBox>
+        <Button fx:id="btnEdit" text="✏️ Edit Selected" onAction="#handleEditEmployee"/>
+        <Button fx:id="btnDeactivate" text="🚫 Deactivate Selected" onAction="#handleDeactivateEmployee"/>
+    </HBox>
+
+    <!-- Filter & Search Toolbar -->
+    <HBox fx:id="toolbarCard" spacing="12" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="12" right="16" bottom="12" left="16"/>
+        </padding>
+
+        <Label fx:id="lblSearch" text="Search:"/>
+        <TextField fx:id="searchField" promptText="Search by ID or Name..." prefWidth="220"/>
+
+        <Label fx:id="lblDept" text="Department:"/>
+        <ComboBox fx:id="filterDepartment" prefWidth="140"/>
+
+        <Label fx:id="lblType" text="Type:"/>
+        <ComboBox fx:id="filterCategory" prefWidth="120"/>
+
+        <Label fx:id="lblLoc" text="Location:"/>
+        <ComboBox fx:id="filterLocation" prefWidth="140"/>
+
+        <Button fx:id="btnReset" text="Reset" onAction="#handleResetFilters"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="totalCountLabel" text="Loading..."/>
+    </HBox>
+
+    <!-- Employee TableView -->
+    <TableView fx:id="employeeTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colId" text="Employee ID" prefWidth="110"/>
+            <TableColumn fx:id="colName" text="Full Name" prefWidth="180"/>
+            <TableColumn fx:id="colCategory" text="Category" prefWidth="100"/>
+            <TableColumn fx:id="colDepartment" text="Department" prefWidth="140"/>
+            <TableColumn fx:id="colDesignation" text="Designation" prefWidth="150"/>
+            <TableColumn fx:id="colLocation" text="Work Location" prefWidth="130"/>
+            <TableColumn fx:id="colDoj" text="Join Date" prefWidth="105"/>
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="85"/>
+        </columns>
+        <placeholder>
+            <Label text="No employees match the current search / filter criteria."/>
+        </placeholder>
+    </TableView>
+</VBox>
